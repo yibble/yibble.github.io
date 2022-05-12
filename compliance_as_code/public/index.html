@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-	<meta name="generator" content="Hugo 0.92.0" />
+	<meta name="generator" content="Hugo 0.98.0" />
     <meta charset="utf-8">
 <title>Compliance as Code</title>
 
@@ -12,6 +12,12 @@
     <link rel="stylesheet" href="/reveal-js/css/reset.css">
 <link rel="stylesheet" href="/reveal-js/css/reveal.css"><link rel="stylesheet" href="/reveal-hugo/themes/robot-lung.css" id="theme"><link rel="stylesheet" href="/highlight-js/color-brewer.min.css">
     
+<style>
+    .reveal section img {
+        background: #ffffff;
+        box-shadow: none;
+        border: 0px solid #000000; }
+</style>
   </head>
   <body>
     
@@ -19,82 +25,515 @@
       <div class="slides">
   
 
-    <section><h1 id="compliance-as-code">Compliance as Code</h1>
-<h2 id="scalable-security-compliance-in-the-cloud">Scalable security compliance in the cloud</h2>
-<p>Nathan Reynolds <a href="mailto:yibble@yibble.org">yibble@yibble.org</a></p>
+    <section><h2 id="compliance-as-code">Compliance-as-Code</h2>
+<h3 id="scalable-security-compliant-infrastructure">Scalable security compliant infrastructure</h3>
+<p>Nathan Reynolds &lt;yibble@yibble.org&gt;</p>
 </section><section>
-<h1 id="this-is-pretty-cool">This is pretty cool</h1>
-<h2 id="h2">h2</h2>
-<h3 id="h3">h3</h3>
-<p><em>Some italicized text</em></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="nohighlight" data-noescape><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">http</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;k6/http&#39;</span>;
-<span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">sleep</span>, <span style="color:#a6e22e">check</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;k6&#39;</span>;
+<h3 id="introduction">Introduction</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🇬🇧</td>
+<td>➡️</td>
+<td>🇺🇸</td>
+</tr>
+<tr>
+<td>🕹️</td>
+<td></td>
+<td>🎮</td>
+</tr>
+<tr>
+<td>🔐</td>
+<td></td>
+<td>👨‍💻</td>
+</tr>
+<tr>
+<td>😺</td>
+<td>😸</td>
+<td>🧛‍♀️</td>
+</tr>
+</tbody>
+</table>
+<figure><img src="yibble_blog_qrtag.png"
+         alt="https://yibble.blog/" width="20%"/><figcaption>
+            <p><a href="https://yibble.blog/">https://yibble.blog/</a></p>
+        </figcaption>
+</figure>
 
-<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> () {
-    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">res</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;https://test.k6.io&#39;</span>, {<span style="color:#a6e22e">tags</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;01_Home&#39;</span> }});
-    <span style="color:#a6e22e">check</span>(<span style="color:#a6e22e">res</span>, {
-      <span style="color:#e6db74">&#39;is status 200&#39;</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">r</span>) =&gt; <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">status</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">200</span>,
-      <span style="color:#e6db74">&#39;text verification&#39;</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">r</span>) =&gt; <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">includes</span>(<span style="color:#e6db74">&#34;Collection of simple web-pages suitable for load testing&#34;</span>)
-    });
-    <span style="color:#a6e22e">sleep</span>(Math.<span style="color:#a6e22e">random</span>() <span style="color:#f92672">*</span> <span style="color:#ae81ff">5</span>);
-}
-</code></pre></div></section>
-
-<section data-noprocess data-shortcode-slide
-      data-background="#7d64ff"
-      id="hello"
-      data-transition="zoom"
-      data-transition-speed="slow">
-  
-
-
-
-<aside class="notes"><p>Speaker notes here. This shouldn&rsquo;t be visible.</p>
-</aside>
-<p style="color:white">
-
-
-<span class='fragment ' ><h1 id="isa">Isa</h1>
-</span>
-
-
-
-
-<span class='fragment ' ><h2 id="deux">Deux</h2>
-</span>
-
-
-
-
-<span class='fragment ' ><h3 id="drie">Drie</h3>
-</span>
-
-
-</p>
+</section><section>
+<h3 id="problem">Problem</h3>
+<ul>
+<li>Adopting security standards is arduous:
+<ul>
+<li>ISO 27001, SOC2 (TSP/C), CIS&hellip;</li>
+</ul>
+</li>
+<li>If infrastructure isn&rsquo;t programmatically defined, it&rsquo;s even worse:
+<ul>
+<li>Everything is manual</li>
+</ul>
+</li>
+<li>Not all control objectives are applicable all the time in the cloud</li>
+<li>Developers want re-usable code, not more human-readable abstract policies
+<ul>
+<li>npm, NuGet, ETC. &ndash; <em>Why not infrastructure?</em></li>
+</ul>
+</li>
+</ul>
 </section><section>
 
 
 <section data-shortcode-section>
-<h1 id="whats-a-vertical-slide">What&rsquo;s a vertical slide?</h1>
+<h3 id="ecosystem">Ecosystem</h3>
+<ul>
+<li>Hashicorp&rsquo;s Terraform</li>
+<li>GitHub (alternatives are available)</li>
+<li><a href="https://github.com/dependabot">GitHub Dependabot</a> / <a href="https://github.com/renovatebot/renovate">Renovate</a></li>
+<li>Developers test, let&rsquo;s test:
+<ul>
+<li>Linting: <code>tflint</code></li>
+<li>Static analysis: <code>tfsec</code> and <code>checkov</code></li>
+<li>Behaviour Driven Development (BDD): <code>terraform-compliance</code></li>
+<li>End-to-End testing: <code>terratest</code></li>
+<li>Documentation: <code>terraform-docs</code></li>
+<li>Pre-commit checks: <code>pre-commit-terraform</code></li>
+</ul>
+</li>
+</ul>
 </section><section>
-<h1 id="oh-cool">Oh cool!</h1>
+<h4 id="terraform">Terraform</h4>
+<ul>
+<li>Infrastructure as Code</li>
+<li>&ldquo;Predicatably create, change, and improve production infrastructure.&rdquo; &ndash; <a href="https://github.com/shuaibiyy/awesome-terraform">awesome-terraform</a></li>
+<li>Lots of Providers</li>
+<li>Open Source</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_instance&#34; &#34;iac_in_action&#34;</span> {
+</span></span><span style="display:flex;"><span>  ami               <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">ami_id</span>
+</span></span><span style="display:flex;"><span>  instance_type     <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">instance_type</span>
+</span></span><span style="display:flex;"><span>  availability_zone <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">availability_zone</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">//</span> <span style="color:#66d9ef">dynamically</span> <span style="color:#66d9ef">retrieve</span> <span style="color:#66d9ef">SSH</span> <span style="color:#66d9ef">Key</span> <span style="color:#66d9ef">Name</span>
+</span></span><span style="display:flex;"><span>  key_name <span style="color:#f92672">=</span> <span style="color:#66d9ef">aws_key_pair</span>.<span style="color:#66d9ef">iac_in_action</span>.<span style="color:#66d9ef">key_name</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">//</span> <span style="color:#66d9ef">dynamically</span> <span style="color:#66d9ef">set</span> <span style="color:#66d9ef">Security</span> <span style="color:#66d9ef">Group</span> <span style="color:#66d9ef">ID</span> (<span style="color:#66d9ef">firewall</span>)
+</span></span><span style="display:flex;"><span>  vpc_security_group_ids <span style="color:#f92672">=</span> [<span style="color:#66d9ef">aws_security_group</span>.<span style="color:#66d9ef">iac_in_action</span>.<span style="color:#66d9ef">id</span>]
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>  tags <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    Name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Terraform-managed EC2 Instance for IaC in Action&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>&ndash; <a href="https://www.terraform.io/">Terraform.io</a></p>
+</section><section>
+<h4 id="terraform-commands">Terraform commands</h4>
+<ul>
+<li><code>terraform fmt</code> : Format our code, or <code>-check</code> that it&rsquo;s formatted</li>
+<li><code>terraform init</code> : Initilize working directory, download providers &amp; modules, and reference state with <code>-backend-config</code></li>
+<li><code>terraform validate</code> : Validates the configuration files. Is the code at least sane?</li>
+<li><code>terraform apply -refresh-only</code> : Updates state from remote objects, normally part of <code>terraform plan</code> and <code>terraform apply</code></li>
+<li><code>terraform plan</code> : Outputs an execution plan of the steps needed to apply your code changes to your infrastructure, <code>-out</code> to a file</li>
+<li><code>terraform apply</code> : Apply the changes to infrastructure. Can use a plan file</li>
+</ul>
+</section><section>
+<h4 id="terraform-process">Terraform Process</h4>
+<ul>
+<li><code>Init</code>ialize our code to determine providers to use, download modules, and reference state</li>
+<li><code>Plan</code> determines changes to make to provider infrastructure, to match code, referencing state</li>
+<li><code>Apply</code> make the <code>plan</code>ned changes</li>
+</ul>
+<figure><img src="terraform.drawio.svg" width="80%"/>
+</figure>
+</section><section>
+<h4 id="github">GitHub</h4>
+<ul>
+<li>Code versioning and collaboration platform</li>
+<li>Fast adoption of workflows using Actions and public Runners
+<ul>
+<li>Actions Marketplace accelerates first steps</li>
+</ul>
+</li>
+<li>Branch, and environment protection</li>
+<li><code>.github/CODEOWNERS</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#f92672">steps</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Terraform fmt</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">run</span>: <span style="color:#ae81ff">terraform fmt -check</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Terraform Init</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">run</span>: <span style="color:#ae81ff">terraform init</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Terraform Validate</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">run</span>: <span style="color:#ae81ff">terraform validate -no-color</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Terraform Plan</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">run</span>: <span style="color:#ae81ff">terraform plan -no-color</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Terraform Apply</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">run</span>: <span style="color:#ae81ff">terraform apply -auto-approve</span>
+</span></span></code></pre></div><p><code>.github/workflows/cicd.yaml</code></p>
+</section><section>
+<h4 id="github-dependabot-or-renovate">GitHub Dependabot (or Renovate)</h4>
+<ul>
+<li>Automatically create PRs when a dependancy is updated</li>
+<li>Not just for general code, also supports Terraform and GitHub Actions</li>
+<li>Feedback in PRs. I.E. output from a <code>terraform plan</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">updates</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">package-ecosystem</span>: <span style="color:#e6db74">&#34;terraform&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">directory</span>: <span style="color:#e6db74">&#34;/&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">schedule</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">interval</span>: <span style="color:#e6db74">&#34;daily&#34;</span>
+</span></span></code></pre></div><p><code>.github/dependabot.yml</code></p>
+</section><section>
+<h4 id="linting-tflint">Linting: <code>tflint</code></h4>
+<ul>
+<li>Checking for errors, best practices, naming conventions, deprecated syntax, unused declarations</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#66d9ef">config</span> {
+</span></span><span style="display:flex;"><span>  module <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>  force  <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>}<span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"># Disallow deprecated (0.11-style) interpolation
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">rule</span> <span style="color:#e6db74">&#34;terraform_deprecated_interpolation&#34;</span> {
+</span></span><span style="display:flex;"><span>  enabled <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>}<span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"># Disallow variables, data sources, and locals that are declared but never used.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">rule</span> <span style="color:#e6db74">&#34;terraform_unused_declarations&#34;</span> {
+</span></span><span style="display:flex;"><span>  enabled <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>}<span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"># Disallow // comments in favor of #.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">rule</span> <span style="color:#e6db74">&#34;terraform_comment_syntax&#34;</span> {
+</span></span><span style="display:flex;"><span>  enabled <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>tflint.hcl</code></p>
+</section><section>
+<h4 id="testing-tfsec--checkov">Testing: <code>tfsec</code> &amp; <code>checkov</code></h4>
+<ul>
+<li>Static code analysis for Terraform</li>
+<li>Find common security issues locally, and as part of CI</li>
+<li>Push results back to GitHub using Static Analysis Results Interchange Format (SARIF)</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">tfsec</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">tfsec/tfsec-sarif-action@main</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">with</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">sarif_file</span>: <span style="color:#ae81ff">tfsec.sarif         </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># As security alerts:</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Upload SARIF file</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">github/codeql-action/upload-sarif@v1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">with</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">sarif_file</span>: <span style="color:#ae81ff">tfsec.sarif </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># Or as comments in a PR:</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">tfsec</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">aquasecurity/tfsec-pr-commenter-action@v0.1.10</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">with</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">github_token</span>: <span style="color:#ae81ff">${{ secrets.READ_GITHUB_ACTIONS_PAT }}</span>
+</span></span></code></pre></div><p><code>.github/workflows/cicd.yaml</code></p>
+</section><section>
+<h4 id="testing-terraform-compliance">Testing: <code>terraform-compliance</code></h4>
+<ul>
+<li>Unit testing a.k.a. Behaviour Driven Development (BDD)</li>
+<li>Focus on negative testing instead of funcitonal testing</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#66d9ef">Feature:</span><span style="color:#a6e22e"> Tagged resources
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">  </span><span style="color:#66d9ef">Scenario Outline:</span><span style="color:#a6e22e"> Ensure that specific tags are defined
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span><span style="color:#66d9ef">    Given </span><span style="color:#a6e22e">I have resource that supports tags defined
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">    </span><span style="color:#66d9ef">When </span><span style="color:#a6e22e">it has tags
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">    </span><span style="color:#66d9ef">Then </span><span style="color:#a6e22e">it must contain </span>&lt;tags&gt;<span style="color:#a6e22e">
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">    </span><span style="color:#66d9ef">And </span><span style="color:#a6e22e">its value must match the &#34;</span>&lt;value&gt;<span style="color:#a6e22e">&#34; regex
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">    </span><span style="color:#66d9ef">Examples:
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">      |</span> tags<span style="color:#66d9ef">               |</span> value<span style="color:#66d9ef">                                          |</span><span style="color:#a6e22e">
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span><span style="color:#66d9ef">      |</span><span style="color:#e6db74"> ApplicationName</span><span style="color:#66d9ef">    |</span><span style="color:#e6db74"> .+</span><span style="color:#66d9ef">                                             |</span><span style="color:#a6e22e">
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span><span style="color:#66d9ef">      |</span><span style="color:#e6db74"> CostCenter</span><span style="color:#66d9ef">         |</span><span style="color:#e6db74"> ^([0-9]{5})$</span><span style="color:#66d9ef">                                   |</span><span style="color:#a6e22e">
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span><span style="color:#66d9ef">      |</span><span style="color:#e6db74"> DataClassification</span><span style="color:#66d9ef"> |</span><span style="color:#e6db74"> ^(public\|internal\|confidential\|restricted)$</span><span style="color:#66d9ef"> |</span><span style="color:#a6e22e">
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span><span style="color:#66d9ef">      |</span><span style="color:#e6db74"> Environment</span><span style="color:#66d9ef">        |</span><span style="color:#e6db74"> ^(production\|stage\|development)$</span><span style="color:#66d9ef">             |</span><span style="color:#a6e22e">
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e"></span><span style="color:#66d9ef">      |</span><span style="color:#e6db74"> OwnerEmail</span><span style="color:#66d9ef">         |</span><span style="color:#e6db74"> ^.+@(yibble\.org\|example\.com)$</span><span style="color:#66d9ef">               |
+</span></span></span></code></pre></div><p><code>tags.feature</code></p>
+</section><section>
+<h4 id="testing-terratest">Testing: <code>terratest</code></h4>
+<ul>
+<li>End-to-end (e2e) testing, because:
+<ul>
+<li>A valid <code>terraform plan</code> does not mean you&rsquo;ll get a successful <code>terraform apply</code></li>
+<li><code>outputs</code> from your module may not match expectations</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">test</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;testing&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/gruntwork-io/terratest/modules/terraform&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/gruntwork-io/terratest/modules/random&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">test_structure</span> <span style="color:#e6db74">&#34;github.com/gruntwork-io/terratest/modules/test-structure&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/stretchr/testify/assert&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">TestTerraformTemplateExample</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">T</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Parallel</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fixtureFolder</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;../example&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">uniqueId</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">random</span>.<span style="color:#a6e22e">UniqueId</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">exampleVariable</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;example-value-%s&#34;</span>, <span style="color:#a6e22e">uniqueId</span>)
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Use Terratest to deploy the infrastructure
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">test_structure</span>.<span style="color:#a6e22e">RunTestStage</span>(<span style="color:#a6e22e">t</span>, <span style="color:#e6db74">&#34;setup&#34;</span>, <span style="color:#66d9ef">func</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">terraformOptions</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">terraform</span>.<span style="color:#a6e22e">Options</span>{
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// Set the terraform binary name that the code will be tested with.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#a6e22e">TerraformBinary</span>: <span style="color:#e6db74">&#34;terraform&#34;</span>,
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// Indicate the directory that contains the Terraform configuration to deploy
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#a6e22e">TerraformDir</span>: <span style="color:#a6e22e">fixtureFolder</span>,
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// Vars or Var Files can be used to namespace testing, so testing doesn&#39;t impact previously
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#75715e">// deployed resources:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#a6e22e">Vars</span>: <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">interface</span>{} {
+</span></span><span style="display:flex;"><span>				<span style="color:#e6db74">&#34;example_variable&#34;</span>: <span style="color:#a6e22e">exampleVariable</span>,
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Save options for later test stages
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">test_structure</span>.<span style="color:#a6e22e">SaveTerraformOptions</span>(<span style="color:#a6e22e">t</span>, <span style="color:#a6e22e">fixtureFolder</span>, <span style="color:#a6e22e">terraformOptions</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Triggers the terraform init and terraform apply command
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">terraform</span>.<span style="color:#a6e22e">InitAndApply</span>(<span style="color:#a6e22e">t</span>, <span style="color:#a6e22e">terraformOptions</span>)
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">test_structure</span>.<span style="color:#a6e22e">RunTestStage</span>(<span style="color:#a6e22e">t</span>, <span style="color:#e6db74">&#34;validate&#34;</span>, <span style="color:#66d9ef">func</span>() {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// run validation checks here
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">terraformOptions</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">test_structure</span>.<span style="color:#a6e22e">LoadTerraformOptions</span>(<span style="color:#a6e22e">t</span>, <span style="color:#a6e22e">fixtureFolder</span>)
+</span></span><span style="display:flex;"><span>		    <span style="color:#a6e22e">nullResourceId</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">terraform</span>.<span style="color:#a6e22e">Output</span>(<span style="color:#a6e22e">t</span>, <span style="color:#a6e22e">terraformOptions</span>, <span style="color:#e6db74">&#34;null_resource_id&#34;</span>)
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">assert</span>.<span style="color:#a6e22e">Regexp</span>(<span style="color:#a6e22e">t</span>, <span style="color:#e6db74">&#34;^[0-9]{19}$&#34;</span>, <span style="color:#a6e22e">nullResourceId</span>)
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// When the test is completed, teardown the infrastructure by calling terraform destroy
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">test_structure</span>.<span style="color:#a6e22e">RunTestStage</span>(<span style="color:#a6e22e">t</span>, <span style="color:#e6db74">&#34;teardown&#34;</span>, <span style="color:#66d9ef">func</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">terraformOptions</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">test_structure</span>.<span style="color:#a6e22e">LoadTerraformOptions</span>(<span style="color:#a6e22e">t</span>, <span style="color:#a6e22e">fixtureFolder</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">terraform</span>.<span style="color:#a6e22e">Destroy</span>(<span style="color:#a6e22e">t</span>, <span style="color:#a6e22e">terraformOptions</span>)
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>terraform_test.go</code></p>
+</section><section>
+<h4 id="documentation-terraform-docs">Documentation: <code>terraform-docs</code></h4>
+<ul>
+<li>Good documentation helps developers with self-support</li>
+<li><code>terraform-docs</code> will prep your README.md with:
+<ul>
+<li>Requirements, modules, resources, inputs, outputs</li>
+</ul>
+</li>
+<li>Developers will know how to instantiate the module, and what to expect from the module</li>
+</ul>
+<pre tabindex="0"><code>&lt;!-- BEGIN_TF_DOCS --&gt;
+## Providers
+
+| Name | Version |
+|------|---------|
+| &lt;a name=&#34;provider_azurerm&#34;&gt;&lt;/a&gt; [azurerm](#provider\_azurerm) | 2.90.0 |
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [azurerm_private_dns_zone.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone) | resource |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| &lt;a name=&#34;input_access_tier&#34;&gt;&lt;/a&gt; [access\_tier](#input\_access\_tier) | Defines the access tier for BlobStorage, FileStorage and StorageV2 accounts. | `string` | `&#34;Hot&#34;` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| &lt;a name=&#34;output_id&#34;&gt;&lt;/a&gt; [id](#output\_id) | https://www.terraform.io/docs/language/values/outputs.html |
+&lt;!-- END_TF_DOCS --&gt;
+</code></pre><p><code>README.md</code></p>
+</section><section>
+<h4 id="pre-commit-checks-pre-commit-terraform">Pre-commit checks: <code>pre-commit-terraform</code></h4>
+<ul>
+<li>Great to automate some of the above tools in CI/CD workflows, but pre-commit checks provide higher quality commits and pushes, which reduces cost and runner contention: <code>pre-commit run -a</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#f92672">repos</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">repo</span>: <span style="color:#ae81ff">https://github.com/antonbabenko/pre-commit-terraform</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">rev</span>: <span style="color:#e6db74">&#34;v1.64.0&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">hooks</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">id</span>: <span style="color:#ae81ff">terraform_fmt</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">id</span>: <span style="color:#ae81ff">terraform_validate</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">id</span>: <span style="color:#ae81ff">terraform_tflint</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">id</span>: <span style="color:#ae81ff">terraform_tfsec</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">exclude</span>: <span style="color:#ae81ff">example/</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">id</span>: <span style="color:#ae81ff">checkov</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">repo</span>: <span style="color:#ae81ff">https://github.com/terraform-docs/terraform-docs</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">rev</span>: <span style="color:#e6db74">&#34;v0.16.0&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">hooks</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">id</span>: <span style="color:#ae81ff">terraform-docs-go</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">args</span>: [
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;markdown&#34;</span>, <span style="color:#e6db74">&#34;table&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;--output-file&#34;</span>, <span style="color:#e6db74">&#34;README.md&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;--output-mode&#34;</span>, <span style="color:#e6db74">&#34;inject&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;./&#34;</span>
+</span></span><span style="display:flex;"><span>      ]
+</span></span></code></pre></div><p><code>.pre-commit-config.yaml</code></p>
 
 </section>
 </section><section>
-<h4 id="aquí-un-video">Aquí un video</h4>
-<iframe width="1120" height="630" src="https://www.youtube.com/embed/WrDV8iIdCy8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</section>
+<h4 id="code-architecture">Code Architecture</h4>
+<ul>
+<li>Determine the structure of our infrastructure code repositories</li>
+<li>There&rsquo;s no one <em>correct</em> answer, but consider your use case, and expand as your implementation and team grow</li>
+</ul>
+<figure><img src="tf-2-tier.drawio.svg"
+         alt="Two-Tier Repository Structure" width="40%"/><figcaption>
+            <p>Two-Tier Repository Structure</p>
+        </figcaption>
+</figure>
 
-<section data-noprocess data-shortcode-slide
-      data-background-image="lucrezia-carnelos-AsM4T46tqcU-unsplash.jpg"
-      data-transition="zoom"
-      data-transition-speed="slow">
-  
-<p align="right">
-	Photo by <br><a href="https://unsplash.com/@ciabattespugnose">Lucrezia Carnelos</a><br>on <a href="https://unsplash.com/s/photos/geek">Unsplash</a>.
-</p>
 </section><section>
-<p>Maybe I should actually write this presentation now.</p>
+<h4 id="code-architecture-1">Code Architecture</h4>
+<ul>
+<li>Abstracting away code changes from the Infrastructure Respository means that dependabot can create most of the PRs</li>
+</ul>
+<figure><img src="tf-3-tier.drawio.svg"
+         alt="Three-Tier Repository Structure" width="30%"/><figcaption>
+            <p>Three-Tier Repository Structure</p>
+        </figcaption>
+</figure>
+
+</section><section>
+<h4 id="code-architecture-2">Code Architecture</h4>
+<ul>
+<li>Abstracting services means that devs won&rsquo;t need to explictly understanding different vendor functionality</li>
+</ul>
+<figure><img src="tf-4-tier.drawio.svg"
+         alt="Four-Tier Repository Structure" width="35%"/><figcaption>
+            <p>Four-Tier Repository Structure</p>
+        </figcaption>
+</figure>
+
+</section><section>
+
+
+<section data-shortcode-section>
+<h4 id="ci--cd-of-modules">CI / CD of modules</h4>
+<ul>
+<li>Workflows can be used to provide continuous feedback, linting, plans, and tfsec comments</li>
+</ul>
+<figure><img src="terraform-cicd.drawio.svg" width="80%"/>
+</figure>
+<ul>
+<li>And automated creation go temporary test infrastructure as a pre-release check</li>
+</ul>
+</section><section>
+<h4 id="pull-requests">Pull Requests</h4>
+<figure><img src="pull_request_plan.png" width="90%"/>
+</figure>
+</section><section>
+<h4 id="code-scanning-with-tfsec-and-sarif">Code Scanning with TFSec and SARIF</h4>
+<figure><img src="tfsec_sarif_code_scanning.png" width="90%"/>
+</figure>
+</section><section>
+<h4 id="code-scanning-with-tfsec-and-sarif-1">Code Scanning with TFSec and SARIF</h4>
+<figure><img src="tfsec_sarif_code_scanning_2.png" width="80%"/>
+</figure>
+</section><section>
+<h4 id="create-releases">Create Releases</h4>
+<figure><img src="terratest_create_release.png" width="100%"/>
+</figure>
+<figure><img src="terratest_create_release_2.png" width="100%"/>
+</figure>
+
+</section>
+</section><section>
+<h4 id="ecosystem-features">Ecosystem features</h4>
+<ul>
+<li>Includes:
+<ul>
+<li>TDD/BDD with Continuous Feedback</li>
+<li>Continuous Feedback for infrastructure changes</li>
+<li>Continuous Feedback for common infrastructure security issues</li>
+<li>Modularized code and semi-automatic updates for downstream repos</li>
+<li>Change Management with reviews and change artifacts</li>
+</ul>
+</li>
+<li>Enables:
+<ul>
+<li>Inner-sourcing of infrastructure</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h4 id="expandable">Expandable</h4>
+<ul>
+<li>Further features could include:
+<ul>
+<li><code>infracost</code> Continuous Feedback: <a href="https://github.com/infracost/infracost">https://github.com/infracost/infracost</a></li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h4 id="wishlist">Wishlist</h4>
+<h5 id="terraform-supported-binary-bit-flags-eg"><code>terraform</code> supported Binary Bit Flags, E.G.</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#66d9ef">local</span> <span style="color:#e6db74">&#34;DEPLOY_AWS&#34;</span> {
+</span></span><span style="display:flex;"><span>  value <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#960050;background-color:#1e0010">x</span><span style="color:#ae81ff">0001</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">local</span> <span style="color:#e6db74">&#34;DEPLOY_AZURE&#34;</span> {
+</span></span><span style="display:flex;"><span>  value <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#960050;background-color:#1e0010">x</span><span style="color:#ae81ff">0002</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">variable</span> <span style="color:#e6db74">&#34;DEPLOY_FLAGS&#34;</span> {
+</span></span><span style="display:flex;"><span>  value <span style="color:#f92672">=</span> <span style="color:#66d9ef">local</span>.<span style="color:#66d9ef">DEPLOY_AWS</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#66d9ef">local</span>.<span style="color:#66d9ef">DEPLOY_AZURE</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">module</span> <span style="color:#e6db74">&#34;aws_kms&#34;</span> {
+</span></span><span style="display:flex;"><span>  count <span style="color:#f92672">=</span> var.DEPLOY_FLAGS &amp; local.DEPLOY_AWS <span style="color:#f92672">==</span> <span style="color:#66d9ef">local</span>.<span style="color:#66d9ef">DEPLOY_AWS</span> <span style="color:#960050;background-color:#1e0010">?</span> <span style="color:#ae81ff">1</span> <span style="color:#960050;background-color:#1e0010">:</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">module</span> <span style="color:#e6db74">&#34;azure_kv&#34;</span> {
+</span></span><span style="display:flex;"><span>  count <span style="color:#f92672">=</span> var.DEPLOY_FLAGS &amp; local.DEPLOY_AZURE <span style="color:#f92672">==</span> <span style="color:#66d9ef">local</span>.<span style="color:#66d9ef">DEPLOY_AZURE</span> <span style="color:#960050;background-color:#1e0010">?</span> <span style="color:#ae81ff">1</span> <span style="color:#960050;background-color:#1e0010">:</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></section><section>
+<h5 id="terraform-supported-cross-boundary-moved-blocks"><code>terraform</code> supported cross-boundary <code>moved</code> blocks</h5>
+<p>This works:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#66d9ef">moved</span> {
+</span></span><span style="display:flex;"><span>  from <span style="color:#f92672">=</span> <span style="color:#66d9ef">aws_instance</span>.<span style="color:#66d9ef">a</span>
+</span></span><span style="display:flex;"><span>  to   <span style="color:#f92672">=</span> <span style="color:#66d9ef">aws_instance</span>.<span style="color:#66d9ef">b</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>But this doesn&rsquo;t:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#66d9ef">moved</span> {
+</span></span><span style="display:flex;"><span>  from <span style="color:#f92672">=</span> <span style="color:#66d9ef">aws_instance</span>.<span style="color:#66d9ef">a</span>
+</span></span><span style="display:flex;"><span>  to   <span style="color:#f92672">=</span> <span style="color:#66d9ef">module</span>.<span style="color:#66d9ef">example</span>.<span style="color:#66d9ef">aws_instance</span>.<span style="color:#66d9ef">b</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Would reduce the need to use <code>terraform state mv</code></p>
+</section><section>
+<h4 id="awesome-terraform">awesome-terraform</h4>
+<figure><img src="awesome_terraform_qrtag.png"
+         alt="https://github.com/shuaibiyy/awesome-terraform" width="50%"/><figcaption>
+            <p><a href="https://github.com/shuaibiyy/awesome-terraform">https://github.com/shuaibiyy/awesome-terraform</a></p>
+        </figcaption>
+</figure>
+
 </section>
 
   

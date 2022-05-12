@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+	<meta name="generator" content="Hugo 0.92.0" />
+    <meta charset="utf-8">
+<title>Compliance as Code</title>
+
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="/reveal-js/css/reset.css">
+<link rel="stylesheet" href="/reveal-js/css/reveal.css"><link rel="stylesheet" href="/reveal-hugo/themes/robot-lung.css" id="theme"><link rel="stylesheet" href="/highlight-js/color-brewer.min.css">
+    
+  </head>
+  <body>
+    
+    <div class="reveal">
+      <div class="slides">
+  
+
+    <section><h1 id="compliance-as-code">Compliance as Code</h1>
+<h2 id="scalable-security-compliance-in-the-cloud">Scalable security compliance in the cloud</h2>
+<p>Nathan Reynolds <a href="mailto:yibble@yibble.org">yibble@yibble.org</a></p>
+</section><section>
+<h1 id="this-is-pretty-cool">This is pretty cool</h1>
+<h2 id="h2">h2</h2>
+<h3 id="h3">h3</h3>
+<p><em>Some italicized text</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="nohighlight" data-noescape><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">http</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;k6/http&#39;</span>;
+<span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">sleep</span>, <span style="color:#a6e22e">check</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;k6&#39;</span>;
+
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> () {
+    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">res</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;https://test.k6.io&#39;</span>, {<span style="color:#a6e22e">tags</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;01_Home&#39;</span> }});
+    <span style="color:#a6e22e">check</span>(<span style="color:#a6e22e">res</span>, {
+      <span style="color:#e6db74">&#39;is status 200&#39;</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">r</span>) =&gt; <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">status</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">200</span>,
+      <span style="color:#e6db74">&#39;text verification&#39;</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">r</span>) =&gt; <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">includes</span>(<span style="color:#e6db74">&#34;Collection of simple web-pages suitable for load testing&#34;</span>)
+    });
+    <span style="color:#a6e22e">sleep</span>(Math.<span style="color:#a6e22e">random</span>() <span style="color:#f92672">*</span> <span style="color:#ae81ff">5</span>);
+}
+</code></pre></div></section>
+
+<section data-noprocess data-shortcode-slide
+      data-background="#7d64ff"
+      id="hello"
+      data-transition="zoom"
+      data-transition-speed="slow">
+  
+
+
+
+<aside class="notes"><p>Speaker notes here. This shouldn&rsquo;t be visible.</p>
+</aside>
+<p style="color:white">
+
+
+<span class='fragment ' ><h1 id="isa">Isa</h1>
+</span>
+
+
+
+
+<span class='fragment ' ><h2 id="deux">Deux</h2>
+</span>
+
+
+
+
+<span class='fragment ' ><h3 id="drie">Drie</h3>
+</span>
+
+
+</p>
+</section><section>
+
+
+<section data-shortcode-section>
+<h1 id="whats-a-vertical-slide">What&rsquo;s a vertical slide?</h1>
+</section><section>
+<h1 id="oh-cool">Oh cool!</h1>
+
+</section>
+</section><section>
+<h4 id="aquí-un-video">Aquí un video</h4>
+<iframe width="1120" height="630" src="https://www.youtube.com/embed/WrDV8iIdCy8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</section>
+
+<section data-noprocess data-shortcode-slide
+      data-background-image="lucrezia-carnelos-AsM4T46tqcU-unsplash.jpg"
+      data-transition="zoom"
+      data-transition-speed="slow">
+  
+<p align="right">
+	Photo by <br><a href="https://unsplash.com/@ciabattespugnose">Lucrezia Carnelos</a><br>on <a href="https://unsplash.com/s/photos/geek">Unsplash</a>.
+</p>
+</section><section>
+<p>Maybe I should actually write this presentation now.</p>
+</section>
+
+  
+
+
+</div>
+      
+
+    </div>
+<script type="text/javascript" src=/reveal-hugo/object-assign.js></script>
+
+<a href="/reveal-js/css/print/" id="print-location" style="display: none;"></a>
+<script type="text/javascript">
+  var printLocationElement = document.getElementById('print-location');
+  var link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.type = 'text/css';
+  link.href = printLocationElement.href + (window.location.search.match(/print-pdf/gi) ? 'pdf.css' : 'paper.css');
+  document.getElementsByTagName('head')[0].appendChild(link);
+</script>
+
+<script type="application/json" id="reveal-hugo-site-params">null</script>
+<script type="application/json" id="reveal-hugo-page-params">{"custom_theme":"reveal-hugo/themes/robot-lung.css","highlight_theme":"color-brewer","margin":0.2,"transition":"slide","transition_speed":"fast"}</script>
+
+<script src="/reveal-js/js/reveal.js"></script>
+
+<script type="text/javascript">
+  
+  
+  function camelize(map) {
+    if (map) {
+      Object.keys(map).forEach(function(k) {
+        newK = k.replace(/(\_\w)/g, function(m) { return m[1].toUpperCase() });
+        if (newK != k) {
+          map[newK] = map[k];
+          delete map[k];
+        }
+      });
+    }
+    return map;
+  }
+  
+  var revealHugoDefaults = { center: true, controls: true, history: true, progress: true, transition: "slide" };
+  var revealHugoSiteParams = JSON.parse(document.getElementById('reveal-hugo-site-params').innerHTML);
+  var revealHugoPageParams = JSON.parse(document.getElementById('reveal-hugo-page-params').innerHTML);
+  
+  var options = Object.assign({},
+    camelize(revealHugoDefaults),
+    camelize(revealHugoSiteParams),
+    camelize(revealHugoPageParams));
+  Reveal.initialize(options);
+</script>
+
+
+  
+  
+  <script type="text/javascript" src="/reveal-js/plugin/markdown/marked.js"></script>
+  
+  <script type="text/javascript" src="/reveal-js/plugin/markdown/markdown.js"></script>
+  
+  <script type="text/javascript" src="/reveal-js/plugin/highlight/highlight.js"></script>
+  
+  <script type="text/javascript" src="/reveal-js/plugin/zoom-js/zoom.js"></script>
+  
+  
+  <script type="text/javascript" src="/reveal-js/plugin/notes/notes.js"></script>
+
+
+
+    
+    
+  </body>
+</html>
